@@ -21,6 +21,13 @@ export default function RegisterPage() {
                 >
                     ¿Ya tienes cuenta? Iniciar Sesión
                 </Link>
+
+                <Link
+                    href='/auth/forgot-password'
+                    className="text-center text-gray-500"
+                >
+                    ¿Olvidaste tu contraseña? Reestablecer
+                </Link>
             </nav>
         </>
     )
