@@ -1,7 +1,11 @@
 "use server"
 import {RegisterSchema} from "@/src/schemas"
 
-export async function register(formData: FormData) {
+type ActionStateType = {
+    errors: string[]
+}
+
+export async function register(prevState: ActionStateType, formData: FormData){
     const registerData = {
         email: formData.get('email'),
         name: formData.get('name'),
@@ -11,17 +15,14 @@ export async function register(formData: FormData) {
     
     // Validación
     const register = RegisterSchema.safeParse(registerData)
-    const errors = register.error?.issues.map(error => error.message)
-    console.log(errors)
-    console.log(register)
-    
-    // Registro del usuario
     if(!register.success) {
-        return {}
+        const errors = register.error.errors.map(error => error.message)
+        return {errors}
     }
+
+    // Registro del usuario
     const url = `${process.env.API_URL}/auth/create-account`
-    console.log(url)
-    
+
     const req = await fetch(url, {
         method: 'POST',
         headers: {
@@ -34,5 +35,7 @@ export async function register(formData: FormData) {
         })
     })
     const json = await req.json()
-    console.log(json) 
+    console.log(json)
+    
+    return {errors: []}
 } 
