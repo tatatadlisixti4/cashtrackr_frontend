@@ -7,7 +7,6 @@ import {useEffect, useRef} from "react"
 
 export default function RegisterForm() {
     const ref = useRef<HTMLFormElement>(null)
-
     const [state, dispatch] = useFormState(register, {
         errors: [],
         success: ''    
@@ -28,8 +27,6 @@ export default function RegisterForm() {
         >
             {state.errors.map(error => <ErrorMessage key={error}>{error}</ErrorMessage>)}
             {state.success && <SuccessMessage key={state.success}>{state.success}</SuccessMessage>}
-
-
             <div className="flex flex-col gap-2">
                 <label
                     className="font-bold text-2xl"
