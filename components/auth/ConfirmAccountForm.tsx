@@ -1,24 +1,30 @@
 "use client"
 import {PinInput, PinInputField} from "@chakra-ui/pin-input"
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import {confirmAccount} from "@/actions/confirm-account-action"
-import { useFormState } from "react-dom"
+import {useFormState} from "react-dom"
 
 export default function ConfirmAccountForm() {
+    const [isComplete, setIsComplete] = useState(false)
     const [token, setToken] = useState("")
-    const [state, dispatch] = useFormState(confirmAccount, {
+
+    const confirmAccountWithToken = confirmAccount.bind(null, token) 
+    const [ , dispatch] = useFormState(confirmAccountWithToken, {
         errors: []
     })
 
+    useEffect(() => {
+        if(isComplete) {
+            dispatch()
+        }
+    }, [isComplete])
+    
     const handleChange = (token: string) => {
         setToken(token)
     }
 
     const handleComplete = () => {
-        console.log("Llegaste al final...")
-        console.log(state)
-        dispatch()
-        
+        setIsComplete(true)
     }
 
     return (
@@ -28,12 +34,12 @@ export default function ConfirmAccountForm() {
                 onChange={handleChange}
                 onComplete={handleComplete}
             >
-                <PinInputField className="h-10 w-10 border border-gray-300 placeholder-white shadow rounded-lg text-center " />
-                <PinInputField className="h-10 w-10 border border-gray-300 placeholder-white shadow rounded-lg text-center " />
-                <PinInputField className="h-10 w-10 border border-gray-300 placeholder-white shadow rounded-lg text-center " />
-                <PinInputField className="h-10 w-10 border border-gray-300 placeholder-white shadow rounded-lg text-center " />
-                <PinInputField className="h-10 w-10 border border-gray-300 placeholder-white shadow rounded-lg text-center " />
-                <PinInputField className="h-10 w-10 border border-gray-300 placeholder-white shadow rounded-lg text-center " />
+                <PinInputField className="h-10 w-10 border border-gray-300 placeholder-white shadow rounded-lg text-center" />
+                <PinInputField className="h-10 w-10 border border-gray-300 placeholder-white shadow rounded-lg text-center" />
+                <PinInputField className="h-10 w-10 border border-gray-300 placeholder-white shadow rounded-lg text-center" />
+                <PinInputField className="h-10 w-10 border border-gray-300 placeholder-white shadow rounded-lg text-center" />
+                <PinInputField className="h-10 w-10 border border-gray-300 placeholder-white shadow rounded-lg text-center" />
+                <PinInputField className="h-10 w-10 border border-gray-300 placeholder-white shadow rounded-lg text-center" />
             </PinInput>
         </div>
     )
