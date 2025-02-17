@@ -1,8 +1,9 @@
 "use server"
-import {RegisterSchema} from "@/src/schemas"
+import {RegisterSchema, SuccessSchema} from "@/src/schemas"
 
 type ActionStateType = {
-    errors: string[]
+    errors: string[],
+    success: string
 }
 
 export async function register(prevState: ActionStateType, formData: FormData){
@@ -17,7 +18,10 @@ export async function register(prevState: ActionStateType, formData: FormData){
     const register = RegisterSchema.safeParse(registerData)
     if(!register.success) {
         const errors = register.error.errors.map(error => error.message)
-        return {errors}
+        return {
+            errors, 
+            success: prevState.success
+        }
     }
 
     // Registro del usuario
@@ -35,7 +39,10 @@ export async function register(prevState: ActionStateType, formData: FormData){
         })
     })
     const json = await req.json()
-    console.log(json)
-    
-    return {errors: []}
+    const success = SuccessSchema.parse(json)
+
+    return {
+        errors: [], 
+        success
+    }
 } 
