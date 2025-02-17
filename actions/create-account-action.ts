@@ -26,7 +26,6 @@ export async function register(prevState: ActionStateType, formData: FormData){
 
     // Registro del usuario
     const url = `${process.env.API_URL}/auth/create-account`
-
     const req = await fetch(url, {
         method: 'POST',
         headers: {
@@ -40,7 +39,6 @@ export async function register(prevState: ActionStateType, formData: FormData){
     })
 
     const json = await req.json()
-
     if(req.status === 409) {
         const {error} = ErrorResponseSchema.parse(json)
         return {
@@ -50,8 +48,6 @@ export async function register(prevState: ActionStateType, formData: FormData){
     }
 
     const success = SuccessSchema.parse(json)
-
-    
     return {
         errors: [], 
         success
