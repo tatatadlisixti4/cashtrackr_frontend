@@ -1,12 +1,13 @@
 "use client"
 import {register} from "@/actions/create-account-action"
 import {useFormState} from "react-dom"
+import ErrorMessage from "../ui/ErrorMessage"
 export default function RegisterForm() {
     const [state, dispatch] = useFormState(register, {
         errors: []}
     )
     
-    console.log(state)
+    console.log(state.errors)
     
     return (
         <form
@@ -14,6 +15,7 @@ export default function RegisterForm() {
             noValidate
             action={dispatch}
         >
+            {state.errors.map(error => <ErrorMessage key={error}>{error}</ErrorMessage>)}
             <div className="flex flex-col gap-2">
                 <label
                     className="font-bold text-2xl"
