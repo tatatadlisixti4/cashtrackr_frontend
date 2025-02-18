@@ -22,12 +22,19 @@ export const LoginSchema = z.object({
         .min(1, {message: 'El Password no puede ir vacio'})
 })
 
+export const TokenSchema = z
+    .string({message: 'Tóken no válido'})
+    .length(6, {message: 'Tóken no válido'})
+
 export const SuccessSchema = z.string()
 
 export const ErrorResponseSchema = z.object({
     error: z.string()
 })
 
-export const TokenSchema = z
-    .string({message: 'Tóken no válido'})
-    .length(6, {message: 'Tóken no válido'})
+export const UserSchema = z.object({
+    id: z.number(),
+    name: z.string(),
+    email: z.string().email()
+})
+
