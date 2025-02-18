@@ -1,10 +1,23 @@
 "use client"
+import {authenticate} from "@/actions/authenticate-user.action"
+import { useEffect } from "react"
+import { useFormState } from "react-dom"
+
 export default function LoginForm() {
+    const [state, dispatch] = useFormState(authenticate, {
+        errors: []
+    })
+
+    useEffect(() => {
+        console.log(state)
+    }, [state])
+
     return (
         <>
             <form
                 className="mt-14 space-y-5"
                 noValidate
+                action={dispatch}
             >
                 <div className="flex flex-col gap-2">
                     <label
