@@ -48,7 +48,7 @@ export default function LoginForm() {
                         name="password"
                     />
                 </div>
-
+                
                 <input
                     type="submit"
                     value='Iniciar Sesión'
