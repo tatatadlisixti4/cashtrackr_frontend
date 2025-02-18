@@ -1,5 +1,6 @@
 "use server"
-import {ErrorResponseSchema, LoginSchema, SuccessSchema} from "@/src/schemas"
+import {ErrorResponseSchema, LoginSchema} from "@/src/schemas"
+import { cookies } from "next/headers"
 
 type ActionStateType = {
     errors: string[]
@@ -40,8 +41,12 @@ export async function authenticate(prevState: ActionStateType, formData: FormDat
         }
     }
 
-    const token = SuccessSchema.parse(json)
-    console.log(token)
+    cookies().set({
+        name: 'CASHTRACKR_TOKEN',
+        value: json,
+        httpOnly: true,
+        path: '/'
+    })
     
     return {
         errors: []
