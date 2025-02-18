@@ -1,8 +1,11 @@
 "use server"
-
 import {LoginSchema} from "@/src/schemas"
 
-export async function authenticate(prevState, formData: FormData) {
+type ActionStateType = {
+    errors: string[]
+}
+
+export async function authenticate(prevState: ActionStateType, formData: FormData) {
     console.log(prevState)
 
     const loginCredentials = {
@@ -16,5 +19,7 @@ export async function authenticate(prevState, formData: FormData) {
             errors: auth.error.errors.map(error =>  error.message)
         }
     }  
-    
+    return {
+        errors: []
+    }
 }
