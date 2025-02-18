@@ -1,4 +1,9 @@
+import {redirect} from "next/navigation"
+import {cookies} from "next/headers"
+
 export const verifySession = async () => {
-    console.log('Desde DAL');
-    
+    const token = cookies().get('CASHTRACKR_TOKEN')
+    if(!token) {
+        redirect('/auth/login')
+    }   
 }

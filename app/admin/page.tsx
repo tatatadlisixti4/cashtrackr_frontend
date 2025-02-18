@@ -1,4 +1,4 @@
-import { verifySession } from "@/components/auth/dal"
+import {verifySession} from "@/components/auth/dal"
 import Link from "next/link"
 
 export default async function AdminPage() {
