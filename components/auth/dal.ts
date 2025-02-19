@@ -21,9 +21,9 @@ export const verifySession = cache(async () => {
     if(!result.success) {
         redirect('/auth/login')
     }
-    
     return {
         user: result.data,
         isAuth: true
     }
 })
+
