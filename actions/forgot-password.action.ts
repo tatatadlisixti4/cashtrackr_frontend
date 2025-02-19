@@ -1,6 +1,6 @@
 "use server"
 
-import {ForgotPasswordSchema} from "@/src/schemas"
+import {ErrorResponseSchema, ForgotPasswordSchema, SuccessSchema} from "@/src/schemas"
 
 type ActionStateType = {
     errors: string[],
@@ -19,8 +19,28 @@ export async function forgotPassword(prevState: ActionStateType, formData: FormD
         }
     }
 
+    const url = `${process.env.API_URL}/auth/forgot-password`
+    const req = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: forgotPassword.data.email 
+        })
+    })
+
+    const json = await req.json()
+    if(!req.ok) {
+        const {error} = ErrorResponseSchema.parse(json)
+        return {
+            errors: [error],
+            success: ''
+        }
+    }    
+    const success = SuccessSchema.parse(json)
     return {
         errors: [],
-        success: ''
+        success
     }
 }
