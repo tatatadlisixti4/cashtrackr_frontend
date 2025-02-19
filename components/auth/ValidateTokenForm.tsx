@@ -1,10 +1,15 @@
 import {useEffect, useState} from "react"
+import {SetStateAction} from "react"
 import {toast} from "react-toastify"
 import {PinInput, PinInputField} from "@chakra-ui/pin-input"
 import {useFormState} from "react-dom"
 import {validateToken} from "@/actions/validate-token-action"
 
-export default function ValidateTokenForm() {
+type ValidateTokenFormProps = {
+    setIsValidToken : React.Dispatch<SetStateAction<boolean>>
+}
+
+export default function ValidateTokenForm({setIsValidToken}: ValidateTokenFormProps) {
     const [token, setToken] = useState('')
     const [isComplete, setIsComplete] = useState(false)
     const validateTokenInput = validateToken.bind(null, token)
@@ -24,7 +29,10 @@ export default function ValidateTokenForm() {
             state.errors.forEach(error => toast.error(error))
         }
         if(state.success) {
-            toast.success(state.success)
+            toast.success(state.success, {
+                onClose: () => setIsValidToken(true)
+            })
+            
         }
     }, [state])
 
