@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react"
+import {toast} from "react-toastify"
 import {PinInput, PinInputField} from "@chakra-ui/pin-input"
 import {useFormState} from "react-dom"
 import {validateToken} from "@/actions/validate-token-action"
@@ -7,17 +8,25 @@ export default function ValidateTokenForm() {
     const [token, setToken] = useState('')
     const [isComplete, setIsComplete] = useState(false)
     const validateTokenInput = validateToken.bind(null, token)
-
     const [state, dispatch] = useFormState(validateTokenInput, {
         errors: [], 
         success: ''
     })
 
     useEffect(() => {
-        if (isComplete) {
+        if(isComplete) {
             dispatch() 
         }
     }, [isComplete])
+
+    useEffect(() => {
+        if(state.errors) {
+            state.errors.forEach(error => toast.error(error))
+        }
+        if(state.success) {
+            toast.success(state.success)
+        }
+    }, [state])
 
     const handleChange = (token: string) => {
         setIsComplete(false)
@@ -27,8 +36,6 @@ export default function ValidateTokenForm() {
     const handleComplete = () => {
         setIsComplete(true)
     }
-
-    console.log(state)
 
     return (
         <div className="flex justify-center gap-5 my-10">

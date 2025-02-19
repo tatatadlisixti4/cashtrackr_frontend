@@ -15,7 +15,6 @@ export async function confirmAccount(token: string, prevState: ActionStateType) 
         }
     } 
 
-    // Confirmar cuenta
     const url = `${process.env.API_URL}/auth/confirm-account`
     const req = await fetch(url, {
         method: 'POST',
