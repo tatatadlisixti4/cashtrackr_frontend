@@ -3,7 +3,8 @@ import Link from 'next/link'
 import {Fragment} from 'react'
 import {Popover, PopoverButton, PopoverPanel, Transition} from '@headlessui/react'
 import {Bars3Icon} from '@heroicons/react/20/solid'
-import { User } from '@/src/types'
+import {User} from '@/src/types'
+import {logout} from '@/actions/logout-user-action'
 
 type AdminMenuProps = {
     user: User
@@ -39,7 +40,7 @@ export default function AdminMenu({user} : AdminMenuProps) {
                         <button
                             className='block p-2 hover:text-purple-950'
                             type='button'
-                            onClick={ () => {}}
+                            onClick={async () => await logout()}
                         >Cerrar Sesión</button>
                     </div>
                 </PopoverPanel>
