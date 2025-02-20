@@ -1,16 +1,15 @@
 "use server"
-import {ResetPasswordSchema } from "@/src/schemas"
+
+import {ErrorResponseSchema, ResetPasswordSchema, SuccessSchema } from "@/src/schemas"
 
 type actionStateType = {
     errors: string[],
     success: string
 }
 export default async function resetPassword(token: string, prevState: actionStateType, formData: FormData) {
-    console.log(token) 
-    
     const resetPasswordInput = {
         password: formData.get('password'),
-        passwordConfirmation: formData.get('passwordConfirmation')
+        password_confirmation: formData.get('password_confirmation')
     }
 
     const isPasswordValid = ResetPasswordSchema.safeParse(resetPasswordInput)
@@ -28,16 +27,22 @@ export default async function resetPassword(token: string, prevState: actionStat
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            token
+            password: isPasswordValid.data.password
         })
     })
-    const json = req.json();
     
-    console.log(json)
+    const json = await req.json()
+    if(!req.ok) {
+        const {error} = ErrorResponseSchema.parse(json)
+        return {
+            errors: [error],
+            success: ''
+        }
+    }
     
-    
+    const success = SuccessSchema.parse(json)    
     return {   
         errors: [],
-        success: ''
+        success
     }
 }

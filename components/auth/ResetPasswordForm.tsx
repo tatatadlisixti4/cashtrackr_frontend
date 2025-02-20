@@ -1,10 +1,11 @@
 import {useFormState} from "react-dom"
+import {useEffect} from "react"
+import {toast} from "react-toastify"
 import resetPassword from "@/actions/reset-password-action"
-import { useEffect } from "react"
-import { toast } from "react-toastify"
 
-export default function ResetPasswordForm() {
-    const [state, dispatch] = useFormState(resetPassword,  {
+export default function ResetPasswordForm({token}: {token: string}) {
+    const resetPassordWithToken = resetPassword.bind(null, token)
+    const [state, dispatch] = useFormState(resetPassordWithToken,  {
         errors: [],
         success: ''
     }) 
@@ -18,6 +19,7 @@ export default function ResetPasswordForm() {
         }
     }, [state])
 
+    
     return (
         <form
             className=" mt-14 space-y-5"

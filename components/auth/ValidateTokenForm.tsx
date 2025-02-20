@@ -6,11 +6,13 @@ import {useFormState} from "react-dom"
 import {validateToken} from "@/actions/validate-token-action"
 
 type ValidateTokenFormProps = {
-    setIsValidToken : React.Dispatch<SetStateAction<boolean>>
+    setIsValidToken: React.Dispatch<SetStateAction<boolean>>
+    token: string
+    setToken: React.Dispatch<SetStateAction<string>>
 }
 
-export default function ValidateTokenForm({setIsValidToken}: ValidateTokenFormProps) {
-    const [token, setToken] = useState('')
+export default function ValidateTokenForm({setIsValidToken, token, setToken}: ValidateTokenFormProps) {
+    // const [token, setToken] = useState('')
     const [isComplete, setIsComplete] = useState(false)
     const validateTokenInput = validateToken.bind(null, token)
     const [state, dispatch] = useFormState(validateTokenInput, {
