@@ -5,7 +5,9 @@ type actionStateType = {
     errors: string[],
     success: string
 }
-export default async function resetPassword(prevState: actionStateType, formData: FormData) {
+export default async function resetPassword(token: string, prevState: actionStateType, formData: FormData) {
+    console.log(token) 
+    
     const resetPasswordInput = {
         password: formData.get('password'),
         passwordConfirmation: formData.get('passwordConfirmation')
@@ -15,15 +17,27 @@ export default async function resetPassword(prevState: actionStateType, formData
     if(!isPasswordValid.success) {
         return {
             errors: isPasswordValid.error.issues.map(issue => issue.message),
-            success: prevState.success
+            success: ''
         }
     }
-
-    const url = `${process.env.API_URL}/auth/reset-password/:${}`
-    const json = await fetch(url)
+    
+    const url = `${process.env.API_URL}/auth/reset-password/${token}`
+    const req = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            token
+        })
+    })
+    const json = req.json();
+    
+    console.log(json)
+    
     
     return {   
-        errors: prevState.errors,
-        success: prevState.success
+        errors: [],
+        success: ''
     }
 }
