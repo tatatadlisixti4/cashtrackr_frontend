@@ -1,14 +1,26 @@
 "use client"
-import { createBudget } from "@/actions/create-budget-action"
+import {useRouter} from "next/navigation"
+import {useEffect} from "react"
 import {useFormState} from "react-dom"
+import {createBudget} from "@/actions/create-budget-action"
 import ErrorMessage from "../ui/ErrorMessage"
+import SuccessMessage from "../ui/SuccessMessage"
 
 export default function CreateBudgetForm() {
+    const router = useRouter()
     const [state, dispatch] = useFormState(createBudget, {
         errors: [],
         success: ''
     })
 
+    useEffect(() => {
+        if(state.success) {
+            setTimeout(() => {
+                router.push('/admin')
+            }, 1000)
+        }
+    }, [state])
+    
     return (
         <form
             className="mt-10 space-y-3"
@@ -16,6 +28,7 @@ export default function CreateBudgetForm() {
             action={dispatch}
         >
             {state.errors && state.errors.map(error => (<ErrorMessage key={error}>{error}</ErrorMessage>))}
+            {state.success && <SuccessMessage>{state.success}</SuccessMessage>}
             <div className="space-y-3">
                 <label htmlFor="name" className="text-sm uppercase font-bold">
                     Nombre Presupuesto
