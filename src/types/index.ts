@@ -1,4 +1,6 @@
 import {z} from 'zod'
-import {UserSchema} from "../schemas"
+import {BudgetAPIResponseSchema, UserSchema} from "../schemas"
 
 export type User = z.infer<typeof UserSchema>
+
+export type Budget = z.infer<typeof BudgetAPIResponseSchema>

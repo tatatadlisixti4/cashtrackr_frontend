@@ -2,7 +2,8 @@ import {Metadata} from "next"
 import Link from "next/link"
 import {BudgetsAPIResponseSchema} from "@/src/schemas"
 import getToken from "@/src/auth/token"
-import { formatCurrency } from "@/utils"
+import {formatCurrency, formatDate} from "@/utils"
+import BudgetMenu from "@/components/budgets/BudgetMenu"
 
 export const metadata: Metadata = {
     title: "CashTrackr - Panel de Administración",
@@ -22,11 +23,8 @@ async function getUserBudgets()  {
     return budgets
 }
 
-
 export default async function AdminPage() {
     const budgets = await getUserBudgets()
-    
-    
     return (
         <>
             <div className='flex flex-col-reverse md:flex-row md:justify-between items-center'>
@@ -62,13 +60,15 @@ export default async function AdminPage() {
                                     {formatCurrency(+budget.amount)}
                                 </p>
                                 <p className='text-gray-500  text-sm'>
-                    
+                                    Última Actualización: {''}
+                                    <span className="font-bold">{formatDate(budget.updatedAt)}</span>
+
                                 </p>
                             </div>
                         </div>
 
                         <div className="flex shrink-0 items-center gap-x-6">
-                
+                            <BudgetMenu budgetId={budget.id} />
                         </div>
                     </li>
                     ))}
