@@ -1,10 +1,11 @@
 "use client"
-
 import {useFormState} from "react-dom"
 import BudgetForm from "./BudgetForm"
 import {editBudget} from "@/actions/edit-budget-action"
+import {Budget} from "@/src/types"
 
-export default function EditBudgetForm() {
+export default function EditBudgetForm({budget}: {budget: Budget}) {
+    
     const [state, dispatch] = useFormState(editBudget, {
         errors: [],
         success: ''
@@ -17,7 +18,7 @@ export default function EditBudgetForm() {
             noValidate
             action={dispatch}
         >
-            <BudgetForm />
+            <BudgetForm budget={budget} />
             <input
                 type="submit"
                 className="bg-amber-500 w-full p-3 text-white uppercase font-bold hover:bg-amber-600 cursor-pointer transition-colors"
