@@ -1,7 +1,7 @@
 import {Metadata} from "next"
-import {cookies} from "next/headers"
 import Link from "next/link"
 import {BudgetsAPIResponseSchema} from "@/src/schemas"
+import getToken from "@/src/auth/token"
 
 export const metadata: Metadata = {
     title: "CashTrackr - Panel de Administración",
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 }
 
 async function getUserBudgets()  {
-    const token = cookies().get('CASHTRACKR_TOKEN')?.value
+    const token = getToken()
     const url = `${process.env.API_URL}/budgets/`
     const req = await fetch(url, {
         headers: {

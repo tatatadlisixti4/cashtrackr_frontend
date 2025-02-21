@@ -1,11 +1,11 @@
 import "server-only"
 import {redirect} from "next/navigation"
-import {cookies} from "next/headers"
-import {UserSchema} from "@/src/schemas"
 import {cache} from "react"
+import {UserSchema} from "@/src/schemas"
+import getToken from "./token"
 
 export const verifySession = cache(async () => {
-    const token = cookies().get('CASHTRACKR_TOKEN')?.value
+    const token = getToken()
     if(!token) {
         redirect('/auth/login')
     }   
