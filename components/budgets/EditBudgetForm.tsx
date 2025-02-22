@@ -19,7 +19,6 @@ export default function EditBudgetForm({budget}: {budget: Budget}) {
         if(state.success) {
             toast.success(state.success)
             router.push('/admin')
-
         }
     }, [state])
     return (
