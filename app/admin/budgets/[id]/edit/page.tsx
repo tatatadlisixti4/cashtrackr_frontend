@@ -25,7 +25,8 @@ async function getBudgetById(budgetId: string) {
 }   
 
 export default async function EditBudgetPage({params}: {params : {id: string}}) {
-    const budget = await getBudgetById(params.id)
+    const budgetId = params.id
+    const budget = await getBudgetById(budgetId)
     return (
         <>
             <div className='flex flex-col-reverse md:flex-row md:justify-between items-center'>

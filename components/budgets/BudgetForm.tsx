@@ -1,4 +1,4 @@
-import { Budget } from "@/src/types";
+import {Budget} from "@/src/types";
 
 export default function BudgetForm({budget} : {budget?: Budget}) {
     return (
@@ -26,7 +26,7 @@ export default function BudgetForm({budget} : {budget?: Budget}) {
                     className="w-full p-3  border border-gray-100 bg-slate-100"
                     placeholder="Cantidad Presupuesto"
                     name="amount"
-                    value={budget?.amount}
+                    defaultValue={budget?.amount}
                 />
             </div>
         </>
