@@ -25,7 +25,8 @@ export const LoginSchema = z.object({
 export const TokenSchema = z
     .string({message: 'Tóken no válido'})
     .length(6, {message: 'Tóken no válido'})
-    export const SuccessSchema = z.string()
+
+export const SuccessSchema = z.string()
 
 export const ForgotPasswordSchema = z.object({
     email: z.string()   
@@ -70,3 +71,9 @@ export const BudgetAPIResponseSchema = z.object({
 })
 
 export const BudgetsAPIResponseSchema = z.array(BudgetAPIResponseSchema)
+
+export const PasswordValidationSchema = z.string()
+    .min(1, {message: 'Password no válido'})
+
+
+    

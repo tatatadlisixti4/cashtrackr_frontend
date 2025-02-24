@@ -2,6 +2,9 @@ import {useFormState} from "react-dom";
 import {useRouter, usePathname, useSearchParams} from "next/navigation";
 import {DialogTitle} from "@headlessui/react";
 import {deleteBudget} from "@/actions/delete-budget-action";
+import ErrorMessage from "../ui/ErrorMessage";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 export default function ConfirmPasswordForm() {
     const pathname = usePathname()
@@ -10,14 +13,22 @@ export default function ConfirmPasswordForm() {
     const budgetId = +searchParams.get('deleteBudgetId')!
     const deleteBudgetWithId = deleteBudget.bind(null, budgetId)
     const [state, dispatch] = useFormState(deleteBudgetWithId, {
-        errors: []
+        errors: [],
+        success: ''
     })
-
+    
     const closeModal = () => {
         const hideModal = new URLSearchParams(searchParams.toString())
         hideModal.delete("deleteBudgetId")
         router.replace(`${pathname}?${hideModal}`)
     }
+
+    useEffect(() => {
+        if(state.success) {
+            toast.success(state.success)
+            closeModal()
+        }
+    }, [state])
 
     return (
         <>
@@ -37,9 +48,11 @@ export default function ConfirmPasswordForm() {
                 action={dispatch}
             >
                 <div className="flex flex-col gap-5">
+                    
                     <label className="font-bold text-2xl" htmlFor="password">
                         Ingresa tu Password para eliminar
                     </label>
+                    {state.errors && state.errors.map(error => (<ErrorMessage key={error}>{error}</ErrorMessage>))}
                     <input
                         id="password"
                         type="password"

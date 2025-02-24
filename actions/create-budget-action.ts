@@ -1,6 +1,7 @@
 "use server"
 import getToken from "@/src/auth/token"
 import {DraftBudgetSchema, ErrorResponseSchema, SuccessSchema} from "@/src/schemas"
+import { revalidatePath } from "next/cache"
 
 type actionStateType = {
     errors: string[],
@@ -40,8 +41,8 @@ export async function createBudget(prevState: actionStateType, formData: FormDat
             success: ''
         }
     }
+    revalidatePath('/admin ')
     const success = SuccessSchema.parse(json)
-    
     return {
         errors: [],
         success
