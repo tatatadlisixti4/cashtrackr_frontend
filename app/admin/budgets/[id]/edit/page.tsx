@@ -3,7 +3,6 @@ import Link from "next/link"
 import EditBudgetForm from "@/components/budgets/EditBudgetForm"
 import {getBudgetById} from "@/src/services/budgets"
 
-
 export async function generateMetadata({params} : {params: {id: string}}) : Promise<Metadata>{
     const budget = await getBudgetById(params.id)
     return {
