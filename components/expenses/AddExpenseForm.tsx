@@ -1,14 +1,17 @@
 import {useEffect} from "react"
 import {useFormState} from "react-dom"
-import {useParams} from "next/navigation"
+import {useParams, usePathname, useRouter, useSearchParams} from "next/navigation"
 import {DialogTitle} from "@headlessui/react"
+import {toast} from "react-toastify"
 import ExpenseForm from "./ExpenseForm"
 import createExpense from "@/actions/create-expense-action"
 import ErrorMessage from "../ui/ErrorMessage"
 
 export default function AddExpenseForm() {
+    const router = useRouter()
+    const pathname = usePathname()
+    const params = useSearchParams()
     const {id} : {id: string}  = useParams()
-
     const createExpenseWithId = createExpense.bind(null, Number(id))
     const [state, dispatch] = useFormState(createExpenseWithId, {
         errors: [],
@@ -16,8 +19,14 @@ export default function AddExpenseForm() {
     })
 
     useEffect(() => {
-        
+        if(state.success) {
+            toast.success(state.success)
+            const hideModal = new URLSearchParams(params.toString())
+            Array.from(hideModal.entries()).forEach(([key]) => hideModal.delete(key))
+            router.replace(`${pathname}?${hideModal}`)
+        }
     }, [state])
+
     return (
         <>
             <DialogTitle
