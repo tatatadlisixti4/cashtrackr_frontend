@@ -1,13 +1,17 @@
+import {useFormState} from "react-dom";
 import {useRouter, usePathname, useSearchParams} from "next/navigation";
 import {DialogTitle} from "@headlessui/react";
+import {deleteBudget} from "@/actions/delete-budget-action";
 
 export default function ConfirmPasswordForm() {
     const pathname = usePathname()
     const router = useRouter()
     const searchParams = useSearchParams()
-    const budgetId = searchParams.get('deleteBudgetId')
-    console.log(budgetId)
-    
+    const budgetId = +searchParams.get('deleteBudgetId')!
+    const deleteBudgetWithId = deleteBudget.bind(null, budgetId)
+    const [state, dispatch] = useFormState(deleteBudgetWithId, {
+        errors: []
+    })
 
     const closeModal = () => {
         const hideModal = new URLSearchParams(searchParams.toString())
@@ -27,7 +31,11 @@ export default function ConfirmPasswordForm() {
             <p className="text-gray-600 text-sm">
                 (Un presupuesto eliminado y sus gastos no se pueden recuperar)
             </p>
-            <form className=" mt-14 space-y-5" noValidate>
+            <form 
+                className=" mt-14 space-y-5" 
+                noValidate
+                action={dispatch}
+            >
                 <div className="flex flex-col gap-5">
                     <label className="font-bold text-2xl" htmlFor="password">
                         Ingresa tu Password para eliminar
