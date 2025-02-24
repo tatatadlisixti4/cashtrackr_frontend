@@ -3,8 +3,9 @@ import { getBudgetById } from "@/src/services/budgets"
 import AddExpenseButton from "@/components/expenses/AddExpenseButton"
 import ModalContainer from "@/components/ui/ModalContainer"
 import { formatCurrency, formatDate } from "@/utils"
+import ExpenseMenu from "@/components/expenses/ExpenseMenu"
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+export async function generateMetadata({params}: {params: {id: string}}): Promise<Metadata> {
     const budget = await getBudgetById(params.id)
     return {
         title: `CashTrackr - ${budget.name}`,
@@ -45,6 +46,7 @@ export default async function BudgetDetailsPage({ params }: { params: { id: stri
                                         </p>
                                     </div>
                                 </div>
+                                <ExpenseMenu expenseId={expense.id}/>
                             </li>
                         ))}
                     </ul>
