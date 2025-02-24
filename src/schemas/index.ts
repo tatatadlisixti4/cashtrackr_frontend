@@ -80,11 +80,10 @@ export const BudgetAPIResponseSchema = z.object({
     expenses: z.array(ExpenseAPIResponseSchema)
 })
 
-export const BudgetsAPIResponseSchema = z.array(BudgetAPIResponseSchema)
+export const BudgetsAPIResponseSchema = z.array(BudgetAPIResponseSchema.omit({expenses: true}))
 
 export const PasswordValidationSchema = z.string()
     .min(1, {message: 'Password no válido'})
-
 
 export const DraftExpenseSchema = z.object({
     name: z.string()
