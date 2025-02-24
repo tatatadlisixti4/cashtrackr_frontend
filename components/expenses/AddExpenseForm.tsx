@@ -4,6 +4,7 @@ import {useParams} from "next/navigation"
 import {DialogTitle} from "@headlessui/react"
 import ExpenseForm from "./ExpenseForm"
 import createExpense from "@/actions/create-expense-action"
+import ErrorMessage from "../ui/ErrorMessage"
 
 export default function AddExpenseForm() {
     const {id} : {id: string}  = useParams()
@@ -15,7 +16,7 @@ export default function AddExpenseForm() {
     })
 
     useEffect(() => {
-
+        
     }, [state])
     return (
         <>
@@ -29,11 +30,13 @@ export default function AddExpenseForm() {
             <p className="text-xl font-bold">Llena el formulario y crea un {''}
                 <span className="text-amber-500">gasto</span>
             </p>
+
             <form
                 className="bg-gray-100 shadow-lg rounded-lg p-10 mt-10 border"
                 noValidate
                 action={dispatch}
             >
+                {state.errors.map(error => (<ErrorMessage key={error}>{error}</ErrorMessage>))}
                 <ExpenseForm />
                 <input
                     type="submit"
