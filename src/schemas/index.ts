@@ -53,6 +53,15 @@ export const UserSchema = z.object({
     email: z.string().email()
 })
 
+export const ExpenseAPIResponseSchema = z.object({
+    id: z.number(),
+    name: z.string(),
+    amount: z.string(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+    budgetId: z.number()
+})
+
 export const DraftBudgetSchema = z.object({
     name: z.string()
         .min(1, {message: 'El Nombre del presupuesto es obligatorio'}),
@@ -67,7 +76,8 @@ export const BudgetAPIResponseSchema = z.object({
     amount: z.string(),
     userId: z.number(),
     createdAt: z.string(),
-    updatedAt: z.string()
+    updatedAt: z.string(),
+    expenses: z.array(ExpenseAPIResponseSchema)
 })
 
 export const BudgetsAPIResponseSchema = z.array(BudgetAPIResponseSchema)

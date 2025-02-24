@@ -13,6 +13,8 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 export default async function BudgetDetailsPage({ params }: { params: { id: string } }) {
     const budgetId = params.id
     const budget = await getBudgetById(budgetId)
+    console.log(budget)
+    
     return (
         <>
             <div className='flex justify-between items-center'>
