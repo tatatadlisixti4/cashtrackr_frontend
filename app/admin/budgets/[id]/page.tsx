@@ -1,8 +1,8 @@
-import { Metadata } from "next"
-import { getBudgetById } from "@/src/services/budgets"
+import {Metadata} from "next"
+import {getBudgetById} from "@/src/services/budgets"
 import AddExpenseButton from "@/components/expenses/AddExpenseButton"
 import ModalContainer from "@/components/ui/ModalContainer"
-import { formatCurrency, formatDate } from "@/utils"
+import {formatCurrency, formatDate} from "@/utils"
 import ExpenseMenu from "@/components/expenses/ExpenseMenu"
 
 export async function generateMetadata({params}: {params: {id: string}}): Promise<Metadata> {
