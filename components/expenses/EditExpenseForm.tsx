@@ -1,14 +1,25 @@
 import {useEffect, useState} from "react"
+import {useFormState} from "react-dom"
 import {useParams, useSearchParams} from "next/navigation"
 import {DialogTitle} from "@headlessui/react"
 import ExpenseForm from "./ExpenseForm"
 import {DraftExpense} from "@/src/types"
+import editExpense from "@/actions/edit-expense-action"
 
 export default function EditExpenseForm({closeModal}: {closeModal: () => void}) {
     const [expense, setExpense] = useState<DraftExpense>()
     const {id: budgetId} = useParams()
     const searchParams = useSearchParams()
-    const expenseId = searchParams.get('editExpenseId')
+    const expenseId = Number(searchParams.get('editExpenseId'))!
+    
+    const editExpenseWithAllParams = editExpense.bind(null, {
+        budgetId: Number(budgetId),
+        expenseId: Number(expenseId)
+    })
+    const [state, dispatch] = useFormState(editExpenseWithAllParams, {
+        errors: [],
+        success: ''
+    })
 
     useEffect(() => {
         const url = `${process.env.NEXT_PUBLIC_URL}/admin/api/budgets/${budgetId}/expenses/${expenseId}`
@@ -31,6 +42,7 @@ export default function EditExpenseForm({closeModal}: {closeModal: () => void}) 
             <form
                 className="bg-gray-100 shadow-lg rounded-lg p-10 mt-10 border"
                 noValidate
+                action={dispatch}
             >
                 <ExpenseForm expense={expense}/>
                 <input
