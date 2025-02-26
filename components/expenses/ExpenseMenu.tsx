@@ -3,7 +3,7 @@ import {Fragment} from 'react'
 import {EllipsisVerticalIcon} from '@heroicons/react/20/solid'
 import {Menu, MenuButton, MenuItem, MenuItems, Transition} from '@headlessui/react'
 import {useRouter} from 'next/navigation'
-import { Expense } from '@/src/types'
+import {Expense} from '@/src/types'
 
 export default function ExpenseMenu({expenseId}: {expenseId: Expense['id']}) {
     const router = useRouter()
@@ -38,7 +38,7 @@ export default function ExpenseMenu({expenseId}: {expenseId: Expense['id']}) {
                             <button
                                 type='button'
                                 className='block px-3 py-1 text-sm leading-6 text-red-500'
-                                onClick={() => { }}
+                                onClick={() => router.push(location.pathname + `?showModal=true&deleteExpenseId=${expenseId}`)}
                             >
                                 Eliminar Gasto
                             </button>
