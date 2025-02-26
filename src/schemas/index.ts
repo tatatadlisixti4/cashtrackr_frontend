@@ -91,3 +91,4 @@ export const DraftExpenseSchema = z.object({
     amount: z.coerce.number()
         .min(1, {message: 'Cantidad no válida'}),
 })
+
