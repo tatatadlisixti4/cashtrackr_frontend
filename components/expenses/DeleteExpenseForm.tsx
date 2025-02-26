@@ -1,5 +1,10 @@
 import {useParams, useSearchParams} from "next/navigation"
 import {DialogTitle} from "@headlessui/react"
+import deleteExpense from "@/actions/delete-expense-action"
+import { useFormState } from "react-dom"
+import { useEffect } from "react"
+import { toast } from "react-toastify"
+import ErrorMessage from "../ui/ErrorMessage"
 
 type DeleteExpenseForm = {
     closeModal: () => void
@@ -9,6 +14,28 @@ export default function DeleteExpenseForm({closeModal}: DeleteExpenseForm) {
     const {id: budgetId} = useParams()
     const searchParams = useSearchParams()
     const expenseId = searchParams.get('deleteExpenseId')!
+    const deleteExpenseWithId = deleteExpense.bind(null, {
+        budgetId: Number(budgetId),
+        expenseId: Number(expenseId)
+    }) 
+    const [state, dispatch] = useFormState(deleteExpenseWithId, {
+        errors: [],
+        success: ''
+    })
+    useEffect(() => {
+        if(!Number.isInteger(+budgetId) || !Number.isInteger(+expenseId)) {
+            closeModal()
+        }
+    }, [])
+    useEffect(() => {
+        if(state.success) {
+            toast.success(state.success)
+            closeModal()
+        }
+        if(state.errors) {
+            toast.error(state.errors)
+        }
+    }, [state])
 
     return (
         <>
@@ -18,6 +45,7 @@ export default function DeleteExpenseForm({closeModal}: DeleteExpenseForm) {
             >
                 Eliminar Gasto
             </DialogTitle>
+            {state.errors.map(error => (<ErrorMessage key={error}>{error}</ErrorMessage>))}
             <p className="text-xl font-bold">Confirma para eliminar, {''}
                 <span className="text-amber-500">el gasto</span>
             </p>
@@ -30,6 +58,7 @@ export default function DeleteExpenseForm({closeModal}: DeleteExpenseForm) {
                 <button
                     type='button'
                     className="bg-red-500 w-full p-3 text-white uppercase font-bold hover:bg-red-600 cursor-pointer transition-colors"
+                    onClick={() => dispatch()}
                 >Eliminar</button>
             </div>
         </>
