@@ -1,3 +1,5 @@
+import ProfileForm from "@/components/profile/ProfileForm";
+
 export default async function EditProfilePage() {
     return (
         <>
@@ -5,6 +7,7 @@ export default async function EditProfilePage() {
             <p className="text-xl font-bold">Aquí puedes cambiar los datos de tu {''}
                 <span className="text-amber-500">perfil</span>
             </p>
+            <ProfileForm />
         </>
     )
 }
