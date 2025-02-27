@@ -20,7 +20,7 @@ export default function CreateBudgetForm() {
                 router.push('/admin')
             }, 1000)
         }
-    }, [state])
+    }, [state, router])
     
     return (
         <form
