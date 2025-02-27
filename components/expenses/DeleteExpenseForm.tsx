@@ -1,9 +1,9 @@
 import {useParams, useSearchParams} from "next/navigation"
 import {DialogTitle} from "@headlessui/react"
 import deleteExpense from "@/actions/delete-expense-action"
-import { useFormState } from "react-dom"
-import { useEffect } from "react"
-import { toast } from "react-toastify"
+import {useFormState} from "react-dom"
+import {useEffect} from "react"
+import {toast} from "react-toastify"
 import ErrorMessage from "../ui/ErrorMessage"
 
 type DeleteExpenseForm = {
