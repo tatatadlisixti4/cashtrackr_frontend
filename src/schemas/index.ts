@@ -100,4 +100,11 @@ export const UpdatePasswordSchema = z.object({
 }).refine((data) => data.password === data.password_confirmation, {
     message: "Los Passwords no son iguales",
     path: ["password_confirmation"]
-});
+})
+
+export const UpdateUserSchema = z.object({
+    name: z.string()
+        .min(1, {message: 'Tu nombre no puede ir vacío'}),
+    email: z.string()
+        .email({message: 'Email no válido'})
+})
